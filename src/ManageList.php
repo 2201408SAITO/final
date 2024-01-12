@@ -1,6 +1,7 @@
 <?php session_start(); ?>
+<?php require 'db-connect.php'; ?>
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
@@ -13,9 +14,6 @@
 </head>
 <body>
     <?php
-    require 'db-connect.php';
-    if(isset($_SESSION['manager'])){
-            $pdo = new PDO($connect, USER, PASS);
                 echo '<header>';
                 echo '<img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">';
                 echo     '<nav class="logout">';
@@ -88,22 +86,6 @@
             echo     '</form>';
             echo '</section>';
             echo '</main>';
-        }else{
-            echo '<header>';
-            echo '<img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">';
-            echo '</header>';
-            echo '<main class="WrapperFinish">';
-            echo '<section class="BodyFinish">';
-            echo    '<label style="color:red;">ログインしてください</label>';
-            echo '</section>';
-            echo '<section class="foot">';
-            echo '<form action="ManageLogin.php" method="post">';
-            echo     '<input type="hidden" name="logout">';
-            echo     '<button class="register" type="submit">ログイン</button>';
-            echo '</form>';
-            echo '</section>';
-            echo '</main>';
-        }
         ?>
     </main>
 </body>
