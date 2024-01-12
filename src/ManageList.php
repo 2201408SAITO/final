@@ -3,7 +3,7 @@
 <html lang="jp">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE-edge"> 
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品一覧</title>
     <link rel="stylesheet" href="css/List.css">
@@ -23,13 +23,13 @@
                 echo         '<a href="ManageLogin.php">ログアウト</a>';
                 echo     '</nav>';
                 echo '</header>';
-
+ 
                 echo '<main class="wrapper">';
                 echo    '<section class="head">';
                 echo        '<h1>商品一覧</h1>';
                 echo    '</section>';
                 echo    '<section class="body">';
-                
+               
                 $delete = "return confirm('削除しますか？')";
                 echo '<table><thead><tr><th width="8%">商品ID</th><th  width="18%">商品名</th><th  width="10%">カテゴリ</th><th  width="7%">単価</th><th  width="5%">在庫</th><th width="20%">商品画像</th><th width="20%">商品説明</th><th  width="10%">動作</th></tr></thead>';
                     echo '<tbody>';
@@ -52,10 +52,10 @@
                             echo '<td class="center" style="word-break: break-word">'.$row['count'].'</td>';
                             echo '<td style="word-break: break-word">';
                             $imageDirectory = 'img/' . $category . '/'.$id.'/';
-                        
+                       
                             // 画像ファイルを取得
                             $images = glob($imageDirectory . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
-                        
+                       
                             if (!empty($images)) {
                                 foreach ($images as $image) {
                                     $fileName = basename($image);
