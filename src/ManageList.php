@@ -13,6 +13,13 @@
 </head>
 <body>
     <?php
+                echo '<header>';
+                echo     '<nav class="logout">';
+                echo 'こんにちは';
+                echo         '<a href="ManageLogin.php">ログアウト</a>';
+                echo     '</nav>';
+                echo '</header>';
+
             $pdo = new PDO($connect, USER, PASS);
                 echo '<main class="wrapper">';
                 echo    '<section class="head">';
