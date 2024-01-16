@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php require 'db-connect.php'; ?>
 <!DOCTYPE html>
 <html lang="ja">
 	<head>
@@ -11,10 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
-    <?php
-    require 'db-connect.php';
-    if(isset($_SESSION['manager'])){
-    ?>
+
         <header>
         <img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">
             <nav class="logout">
@@ -33,45 +30,45 @@
                         <input type="button" id="loadFileXml" value="画像" class="imageButton" onclick="document.getElementById('fileInput').click();" />
                         <input type="file" style="display:none;" name="files[]" id="fileInput" multiple="multiple" onchange="previewImages()">
                     </div>
-                    <div>
-                        <label>個数：</label>
-                        <input class="input-box-number" type="text" style="padding: 5px;" placeholder="個数" required="required" name="piece" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g,'$1');"/>個
-                    </div>
+
                         
                     <div>
-                    <label>カテゴリ：</label>
+                    <label>販売元：</label>
                         <select name="category" class="input-box-option" style="padding: 5px;" required="required">
                           <option selected value="">選んでください</option>
                           <?php
-                          $cate =[
-                            1 => '家具',
-                            2 => 'ゲーム機',
-                            3 => '家電',
-                            4 => '靴',
-                            5 => 'おもちゃ',
-                            6 => 'スマートフォン',
-                            7 => '服',
-                            8 => '本'
+                            $Co =[
+                                1 => '任天堂',
+                                2 => 'SONY',
+                                3 => 'Microsoft',
+                                4 => 'エポック',
+                                5 => 'バンダイ',
+                                6 => 'セガ',
+                                7 => 'Atari',
+                                8 => 'NEC',
+                                9 => 'SNK'
                             ];
-                        foreach($cate as $CateId => $CateName){
-                            echo  '<option value="'.$CateId.'">'.$CateName.'</option>';
+
+
+                        foreach($Co as $CoID => $CoName){
+                            echo  '<option value="'.$CoID.'">'.$CoName.'</option>';
                         }
                           ?>
                         </select>
                     </div>
                     <div>
                         <label>商品名：</label>
-                        <input name="name" class="input-box" type="text" style="padding: 5px;" placeholder="商品名を入力してください" maxlength="50" required="required">
+                        <input name="Name" type="text" class="input-box"  style="padding: 5px;" placeholder="商品名を入力してください" maxlength="50" required="required">
                     </div>
                     <div>
-                        <label>販売単価：</label>
-                        <input type="text" class="input-box-number" style="padding: 5px;" placeholder="単価" required="required" name="price" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g,'$1');"/>円
+                        <label>発売年：</label>
+                        <input name="ReleaseYear" type="text" class="input-box-number"  style="padding: 5px;" placeholder="発売年" required="required"  maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g,'$1');"/>年
                     </div>
-                    <div class="explain">
-                        <label>商品説明：</label>
-                        <br>
-                        <textarea name="explain" class="input-box-explain" style="padding: 5px;" placeholder="商品説明を入力してください" required="required" cols="100" rows="5" name="explain" maxlength="200"></textarea>
+                    <div>
+                        <label>価格：</label>
+                        <input  name="Price" type="text" class="input-box-number" style="padding: 5px;" placeholder="価格" required="required"maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g,'$1');"/>円
                     </div>
+
                 </section>
                 <section class="foot">
                     <button class="register" onclick="location.href='ManageList.php'" type="submit">戻る</button>
@@ -79,23 +76,5 @@
                 </section>
             </form>
         </div>
-        <?php
-    }else{
-        echo '<header>';
-        echo '<img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">';
-        echo '</header>';
-        echo '<main class="WrapperFinish">';
-        echo '<section class="BodyFinish">';
-        echo    '<label style="color:red;">ログインしてください</label>';
-        echo '</section>';
-        echo '<section class="FootFinish">';
-        echo '<form action="ManageLogin.php" method="post">';
-        echo     '<input type="hidden" name="logout">';
-        echo     '<button class="register" type="submit">ログイン</button>';
-        echo '</form>';
-        echo '</section>';
-        echo '</main>';
-    }
-?>
     </body>
 </html>

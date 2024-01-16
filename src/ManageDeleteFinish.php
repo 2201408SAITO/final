@@ -1,3 +1,4 @@
+<?php require 'db-connect.php'; ?>
 <!DOCTYPE html>
 <html lang="jp">
 <head>
@@ -18,16 +19,14 @@
     <main class="wrapper">
         <section class="body">
         <?php
-            require 'db-connect.php';
             try{
-                $pdo=new PDO($connect, USER, PASS);
-                $sql=$pdo->prepare("delete from goods where goods_id=?");
-                $sql->execute([$_POST['delid']]);
+                $sql=$pdo->prepare("delete from gameconsole where GameID=?");
+                $sql->execute([$_POST['delID']]);
                 echo '<label style="color:red;">商品削除が完了しました。</label>';
                 $category=$_POST['delcategory'];
-                $id=$_POST['delname'];
-                $path1="./img/{$category}/{$id}";
-                $imageDirectory = 'img/' . $category . '/'.$id.'/';
+                $Name=$_POST['delname'];
+                $path1="./img/{$category}/{$Name}";
+                $imageDirectory = 'img/' . $category . '/'.$Name.'/';
                 $images = glob($imageDirectory . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
                 if(file_exists($path1)){
                     foreach ($images as $image) {

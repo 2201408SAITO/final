@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php require 'db-connect.php'; 
+?>
 <!DOCTYPE html>
 <html lang="jp">
 <head>
@@ -10,10 +11,7 @@
     <script src="./script/Register.js"></script>
 </head>
 <body>
-<?php
-    require 'db-connect.php';
-    if(isset($_SESSION['manager'])){
-    ?>
+
     <header>
     <img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">
         <nav class="logout">
@@ -33,9 +31,22 @@
                     7 => '服',
                     8 => '本'
                 );
+
+                $Co =[
+                    1 => '任天堂',
+                    2 => 'SONY',
+                    3 => 'Microsoft',
+                    4 => 'エポック',
+                    5 => 'バンダイ',
+                    6 => 'セガ',
+                    7 => 'Atari',
+                    8 => 'NEC',
+                    9 => 'SNK'
+                ];
+
                 $key=$_POST['category'];
-                $category=$categories[$key];
-                $name=$_POST['name'];
+                $category=$Co[$key];
+                $name=$_POST['Name'];
                 $path="./img/{$category}";
                 $path1="./img/{$category}/{$name}";
                 if(!file_exists($path)){
@@ -72,9 +83,8 @@
                     echo '<label>写真なしで</label>';
                 }
                 echo '<label>追加に成功しました</label>';
-                $pdo = new PDO($connect, USER, PASS);
-                $sql=$pdo->prepare('insert into goods(category_id,goods_name,price,register_date,count,exp) value (?,?,?,?,?,?)');
-                $sql->execute([$_POST['category'],$_POST['name'],$_POST['price'],date("Y/m/d",time()),$_POST['piece'],$_POST['explain']]);
+                $sql=$pdo->prepare('insert into gameconsole(Name,ReleaseYear,Price,CoID) value (?,?,?,?)');
+                $sql->execute([$_POST['Name'],$_POST['ReleaseYear'],$_POST['Price'],$_POST['category']]);
                 ?>
         </section>
         <section class="foot">
@@ -83,23 +93,5 @@
             </form>
         </section>
     </main>
-    <?php
-}else{
-        echo '<header>';
-        echo '<img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">';
-        echo '</header>';
-        echo '<main class="WrapperFinish">';
-        echo '<section class="BodyFinish">';
-        echo    '<label style="color:red;">ログインしてください</label>';
-        echo '</section>';
-        echo '<section class="FootFinish">';
-        echo '<form action="ManageLogin.php" method="post">';
-        echo     '<input type="hidden" name="logout">';
-        echo     '<button class="register" type="submit">ログイン</button>';
-        echo '</form>';
-        echo '</section>';
-        echo '</main>';
-    }
-    ?>
 </body>
 </html>

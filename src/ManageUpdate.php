@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php require 'db-connect.php'; ?>
 <!DOCTYPE html>
 <html lang="ja">
 	<head>
@@ -16,10 +16,6 @@
         </script>
 	</head>
 	<body>
-    <?php
-    require 'db-connect.php';
-    if(isset($_SESSION['manager'])){
-    ?>
         <header>
         <img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">
             <nav class="logout">
@@ -35,18 +31,18 @@
                 $file = "fileInput";
                 $s = "this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g,'$1');";
                 $pdo=new PDO($connect, USER, PASS);
-                $sql=$pdo->prepare('select goods. * , category_name from goods inner join categories on goods.category_id = categories.category_id where goods_id=?');
+                $sql=$pdo->prepare('select gameconsole. * , CoName from gameconsole inner join publisher on gameconsole.CoID = publisher.CoID where GameID=?');
 	            $sql->execute([$_POST['id']]);
                 foreach($sql as $row){
                     echo '<form action = "ManageUpdateFinish.php" method = "post" enctype="multipart/form-data">';
-                    echo     '<input type="hidden" name="id" value="'.$row['goods_id'].'">';
-                    echo     '<input type="hidden" name="OldCategory" value="'.$row['category_id'].'">';
-                    echo     '<input type="hidden" name="OldName" value="'.$row['goods_name'].'">';
+                    echo     '<input type="hidden" name="GameID" value="'.$row['GameID'].'">';
+                    echo     '<input type="hidden" name="OldCoID" value="'.$row['CoID'].'">';
+                    echo     '<input type="hidden" name="OldName" value="'.$row['Name'].'">';
                     echo     '<section class="body">';
                     echo         '<div class="image">';
                     echo             '<label>画像：</label>';
-                    $category=$row['category_name'];
-                    $id=$row['goods_name'];
+                    $category=$row['CoName'];
+                    $id=$row['Name'];
                     $imageDirectory = 'img/' . $category . '/'.$id.'/';
                     $images = glob($imageDirectory . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
                     if (!empty($images)) {
@@ -63,35 +59,33 @@
                     echo             '<input type="file" style="display:none;" name="files[]" id="fileInput" multiple="multiple" onchange="previewImages()">';
                     echo         '</div>';
                     echo         '<div>';
-                    echo             '<label>個数：</label><input  class="input-box-number" type="text" style="padding: 5px;" placeholder="個数" required="required" name="piece" maxlength="4" oninput="'.$s.'" value="'.$row['count'].'"/>個';
-                    echo         '</div>'; 
-                    echo         '<div>';
                     echo         '<label>カテゴリ：</label>';
-                    echo             '<select name="category" class="input-box-option" style="padding: 5px;">';
-                    echo               '<option value="'.$row['category_id'].'" selected>'.$row['category_name'].'</option>';
-                                        $cate =[
-                                            1 => '家具',
-                                            2 => 'ゲーム機',
-                                            3 => '家電',
-                                            4 => '靴',
-                                            5 => 'おもちゃ',
-                                            6 => 'スマートフォン',
-                                            7 => '服',
-                                            8 => '本'
+                    echo             '<select name="CoID" class="input-box-option" style="padding: 5px;">';
+                    echo               '<option value="'.$row['CoID'].'" selected>'.$row['CoName'].'</option>';
+                                        $Co =[
+                                            1 => '任天堂',
+                                            2 => 'SONY',
+                                            3 => 'Microsoft',
+                                            4 => 'エポック',
+                                            5 => 'バンダイ',
+                                            6 => 'セガ',
+                                            7 => 'Atari',
+                                            8 => 'NEC',
+                                            9 => 'SNK'
                                         ];
-                                        foreach($cate as $CateId => $CateName){
-                    echo               '<option value="'.$CateId.'">'.$CateName.'</option>';
+                                        foreach($Co as $CoID => $CoName){
+                    echo               '<option value="'.$CoID.'">'.$CoName.'</option>';
                                         }
                     echo             '</select>';
                     echo         '</div>';
                     echo         '<div>';
-                    echo             '<label>商品名：</label><input name="name" class="input-box" type="text" style="padding: 5px;" placeholder="商品名を入力してください" value="'.$row['goods_name'].'" required="required">';
+                    echo             '<label>ゲーム機名：</label><input type="text"  class="input-box"  style="padding: 5px;" placeholder="ゲーム機名を入力してください" name="Name" value="'.$row['Name'].'" required="required">';
                     echo         '</div>';
                     echo         '<div>';
-                    echo             '<label>販売単価：</label><input type="text" class="input-box-number" style="padding: 5px;" placeholder="単価" required="required" name="price" maxlength="6" oninput="'.$s.'" value="'.$row['price'].'"/>円';
+                    echo             '<label>価格：</label><input type="text" class="input-box-number" style="padding: 5px;" placeholder="価格" required="required" name="Price" maxlength="6" oninput="'.$s.'" value="'.$row['Price'].'"/>円';
                     echo         '</div>';
                     echo         '<div class="explain">';
-                    echo             '<label>商品説明：</label><br><textarea name="explain" class="input-box-explain" style="padding: 5px;" placeholder="商品説明を入力してください" required="required" cols="100" rows="5" name="explain" maxlength="200">'.$row['exp'].'</textarea>';
+                    echo             '<label>発売年：</label><input type="text" class="input-box-number" style="padding: 5px;" placeholder="発売年" required="required" name="ReleaseYear" minlength="1977" maxlength="2024" oninput="'.$s.'" value="'.$row['ReleaseYear'].'"/>年';
                     echo         '</div>';
                     echo     '</section>';
                     echo     '<section class="foot">';
@@ -102,23 +96,5 @@
                 }
             ?>
         </div>
-        <?php
-    }else{
-        echo '<header>';
-        echo '<img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">';
-        echo '</header>';
-        echo '<main class="WrapperFinish">';
-        echo '<section class="BodyFinish">';
-        echo    '<label style="color:red;">ログインしてください</label>';
-        echo '</section>';
-        echo '<section class="FootFinish">';
-        echo '<form action="ManageLogin.php" method="post">';
-        echo     '<input type="hidden" name="logout">';
-        echo     '<button class="register" type="submit">ログイン</button>';
-        echo '</form>';
-        echo '</section>';
-        echo '</main>';
-    }
-    ?>
     </body>
 </html>

@@ -29,27 +29,27 @@
                 echo    '<section class="body">';
                
                 $delete = "return confirm('削除しますか？')";
-                echo '<table><thead><tr><th width="8%">商品ID</th><th  width="18%">商品名</th><th  width="10%">カテゴリ</th><th  width="7%">単価</th><th  width="5%">在庫</th><th width="20%">商品画像</th><th width="20%">商品説明</th><th  width="10%">動作</th></tr></thead>';
+                echo '<table><thead><tr><th width="8%">ID</th><th  width="18%">ゲーム機名</th><th  width="10%">発売年</th><th  width="7%">価格</th><th  width="5%">販売元</th><th width="20%">商品画像</th><th  width="10%">動作</th></tr></thead>';
                     echo '<tbody>';
-                    foreach ($pdo->query('SELECT goods. * , category_name FROM goods INNER JOIN categories ON goods.category_id = categories.category_id') as $row) {
+                    foreach ($pdo->query('SELECT gameconsole. * , CoName FROM gameconsole INNER JOIN publisher ON gameconsole.CoID = publisher.CoID') as $row) {
                         echo '<tr>';
-                            $category=$row['category_name'];
-                            $id=$row['goods_name'];
-                            $path="./img/{$category}";
-                            $path1="./img/{$category}/{$id}";
+                            $CoName=$row['CoName'];
+                            $Name=$row['Name'];
+                            $path="./img/{$CoName}";
+                            $path1="./img/{$CoName}/{$Name}";
                             if(!file_exists($path)){
-                                mkdir("./img/{$category}", 0777);
+                                mkdir("./img/{$CoName}", 0777);
                             }
                             if(!file_exists($path1)){
-                                mkdir("./img/{$category}/{$id}", 0777);
+                                mkdir("./img/{$CoName}/{$Name}", 0777);
                             }
-                            echo '<td class="center"  style="word-break: break-word">'.$row['goods_id'].'</td>';
-                            echo '<td style="word-break: break-word">'.$row['goods_name'].'</td>';
-                            echo '<td style="word-break: break-word">'.$row['category_name'].'</td>';
-                            echo '<td style="word-break: break-word"><strong>'.$row['price'].'</strong></td>';
-                            echo '<td class="center" style="word-break: break-word">'.$row['count'].'</td>';
+                            echo '<td class="center"  style="word-break: break-word">'.$row['GameID'].'</td>';
+                            echo '<td style="word-break: break-word">'.$row['Name'].'</td>';
+                            echo '<td style="word-break: break-word">'.$row['ReleaseYear'].'</td>';
+                            echo '<td style="word-break: break-word"><strong>'.$row['Price'].'</strong></td>';
+                            echo '<td class="center" style="word-break: break-word">'.$row['CoName'].'</td>';
                             echo '<td style="word-break: break-word">';
-                            $imageDirectory = 'img/' . $category . '/'.$id.'/';
+                            $imageDirectory = 'img/' . $CoName . '/'.$Name.'/';
                        
                             // 画像ファイルを取得
                             $images = glob($imageDirectory . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
@@ -63,16 +63,15 @@
                                 echo 'No images';
                             }
                             echo '</td>';
-                            echo '<td style="word-break: break-word">'.$row['exp'].'</td>';
                             echo '<td class="center">';
                                 echo '<form action="ManageUpdate.php" method="post">';
-                                    echo '<input type="hidden" name="id" value="'.$row['goods_id'].'">';
+                                    echo '<input type="hidden" name="id" value="'.$row['GameID'].'">';
                                     echo '<button class="up" type ="submit">更新</button>';
                                 echo '</form>';
                                 echo '<form action="ManageDeleteFinish.php" method="post">';
-                                    echo '<input type="hidden" name="delcategory" value="'.$row['category_name'].'">';
-                                    echo '<input type="hidden" name="delname" value="'.$row['goods_name'].'">';
-                                    echo '<input type="hidden" name="delid" value="'.$row['goods_id'].'">';
+                                    echo '<input type="hidden" name="delcategory" value="'.$row['CoName'].'">';
+                                    echo '<input type="hidden" name="delname" value="'.$row['Name'].'">';
+                                    echo '<input type="hidden" name="delID" value="'.$row['GameID'].'">';
                                     echo '<button onclick="'.$delete.'" class="del" type ="submit">削除</button>';
                                 echo '</form>';
                         echo '</td></tr>';

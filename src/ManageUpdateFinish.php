@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php require 'db-connect.php'; ?>
 <!DOCTYPE html>
 <html lang="jp">
 <head>
@@ -10,10 +10,7 @@
     <script src="./script/Register.js"></script>
 </head>
 <body>
-    <?php
-require 'db-connect.php';
-    if(isset($_SESSION['manager'])){
-    ?>
+
     <header>
     <img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">
         <nav class="logout">
@@ -24,20 +21,21 @@ require 'db-connect.php';
         <section class="body">
         <?php
                 $categories = array(
-                    1 => '家具',
-                    2 => 'ゲーム機',
-                    3 => '家電',
-                    4 => '靴',
-                    5 => 'おもちゃ',
-                    6 => 'スマートフォン',
-                    7 => '服',
-                    8 => '本'
+                    1 => '任天堂',
+                    2 => 'SONY',
+                    3 => 'Microsoft',
+                    4 => 'エポック',
+                    5 => 'バンダイ',
+                    6 => 'セガ',
+                    7 => 'Atari',
+                    8 => 'NEC',
+                    9 => 'SNK'
                 );
-                $key=$_POST['category'];
-                $Okey=$_POST['OldCategory'];
+                $key=$_POST['CoID'];
+                $Okey=$_POST['OldCoID'];
                 $category=$categories[$key];
                 $Ocategory=$categories[$Okey];
-                $name=$_POST['name'];
+                $name=$_POST['Name'];
                 $Oname=$_POST['OldName'];
                 $OldPath="./img/{$Ocategory}";
                 $OldPath1="./img/{$Ocategory}/{$Oname}";
@@ -92,10 +90,8 @@ require 'db-connect.php';
                         }
                 }
                 echo '<label>更新に成功しました</label>';
-                $pdo = new PDO($connect, USER, PASS);
-                $sql=$pdo->prepare('update goods set category_id = ?,goods_name = ?,price = ?,updated_date=?,count=?,exp =? where goods_id=?');
-                $sql->execute([$_POST['category'],$_POST['name'],$_POST['price'],date("Y/m/d",time()),$_POST['piece'],$_POST['explain'],$_POST['id']]);
-                
+                $sql=$pdo->prepare('update gameconsole set Name = ?, ReleaseYear = ?, Price = ?, CoID = ? where GameID=?');
+                $sql->execute([$_POST['Name'], $_POST['ReleaseYear'], $_POST['Price'], $_POST['CoID'], $_POST['GameID']]);
                 ?>
         </section>
         <section class="foot">
@@ -104,24 +100,5 @@ require 'db-connect.php';
             </form>
         </section>
     </main>
-
-    <?php
-    }else{
-        echo '<header>';
-        echo '<img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">';
-        echo '</header>';
-        echo '<main class="WrapperFinish">';
-        echo '<section class="BodyFinish">';
-        echo    '<label style="color:red;">ログインしてください</label>';
-        echo '</section>';
-        echo '<section class="FootFinish">';
-        echo '<form action="ManageLogin.php" method="post">';
-        echo     '<input type="hidden" name="logout">';
-        echo     '<button class="register" type="submit">ログイン</button>';
-        echo '</form>';
-        echo '</section>';
-        echo '</main>';
-    }
-    ?>
 </body>
 </html>
