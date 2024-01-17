@@ -17,7 +17,7 @@
 
                 echo '<main class="wrapper">';
                 echo    '<section class="head">';
-                echo        '<h1>商品一覧</h1>';
+                echo        '<h1>ゲーム機一覧</h1>';
                 echo    '</section>';
                 echo    '<section class="body">';
                
