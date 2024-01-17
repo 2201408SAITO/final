@@ -16,12 +16,6 @@
         </script>
 	</head>
 	<body>
-        <header>
-        <img style="user-select: none;" src="img/logo.png" class="logo" alt="" width="100" height="65">
-            <nav class="logout">
-                <a href="ManageLogin.php">ログアウト</a>
-            </nav>
-        </header>
         <div class="wrapper">
             <section class="head">
                 <h2>商品更新</h2>
