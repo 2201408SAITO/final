@@ -4,7 +4,7 @@
 	<head>
     <meta http-equiv="Cache-Control" content="no-cache">
 		<meta charset="UTF-8">
-		<title>商品更新画面</title>
+		<title>ゲーム機更新画面</title>
         <link rel="stylesheet" href="css/Update.css">
         <script src="./script/Update.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -18,7 +18,7 @@
 	<body>
         <div class="wrapper">
             <section class="head">
-                <h2>商品更新</h2>
+                <h2>ゲーム機更新</h2>
             </section>
             <?php
                 $l = "location.href='ManageList.php'";

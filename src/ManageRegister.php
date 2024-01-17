@@ -4,7 +4,7 @@
 	<head>
     <meta http-equiv="Cache-Control" content="no-cache">
 		<meta charset="UTF-8">
-		<title>商品登録画面</title>
+		<title>ゲーム機登録画面</title>
         <link rel="stylesheet" href="css/Register.css">
         <script src="./script/Register.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -13,7 +13,7 @@
 	<body>
         <div class="wrapper">
             <section class="head">
-                <h2>商品登録</h2>
+                <h2>ゲーム機登録</h2>
             </section>
             <form action = "ManageRegisterFinish.php" method = "post" enctype="multipart/form-data">
                 <section class="body">
